@@ -11,17 +11,16 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clientId: '' + new Date().getTime(),
+      clientId: parseInt(Math.random() * 1e4, 10).toString(16),
       callWindow: '',
       callModal: '',
       callFrom: '',
       localSrc: null,
-      peerSrc: null
+      peerSrc: null,
     };
-    this.pc = new PeerConnection(this.state.clientId)
-      .on('call', (call) => {
-        this.setState({ callModal: 'active', callFrom: call.peer });
-      });
+    this.pc = new PeerConnection(this.state.clientId).on('call', call => {
+      this.setState({ callModal: 'active', callFrom: call.peer });
+    });
     this.config = null;
     this.startCallHandler = this.startCall.bind(this);
     this.endCallHandler = this.endCall.bind(this);
@@ -31,7 +30,7 @@ export default class App extends Component {
   startCall(isCaller, friendID, config) {
     this.config = config;
     this.pc
-      .on('localStream', (src) => {
+      .on('localStream', src => {
         const newState = { callWindow: 'active', localSrc: src };
         if (!isCaller) newState.callModal = '';
         this.setState(newState);
@@ -57,13 +56,17 @@ export default class App extends Component {
   }
 
   render() {
-    const { clientId, callFrom, callModal, callWindow, localSrc, peerSrc } = this.state;
+    const {
+      clientId,
+      callFrom,
+      callModal,
+      callWindow,
+      localSrc,
+      peerSrc,
+    } = this.state;
     return (
       <div>
-        <MainWindow
-          clientId={clientId}
-          startCall={this.startCallHandler}
-        />
+        <MainWindow clientId={clientId} startCall={this.startCallHandler} />
         {!_.isEmpty(this.config) && (
           <CallWindow
             status={callWindow}
