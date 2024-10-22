@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^5.0.0",
     "bootstrap-sass": "^3.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
